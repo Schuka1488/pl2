@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block hat %}
+    <h1>{{post.nameProduct}}</h1>
+    <p><img width="800" height="450" src="{{post.photoProduct.url}}"></p>
+    <h5>{{post.priceOnCronProduct}}
+        <img width="20" height="20" src="https://www.nirn.store/wp-content/themes/nirn/assets/img/crown.png"
+             alt="Crown">
+        {{post.priceOnMoneyProduct}}&nbsp;рублей
+    </h5>
+{% endblock %}

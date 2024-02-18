@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+
+{% block hat %}
+<style>
+.auto-label {
+  font-weight: bold;
+  color: #fff; /* Измененный цвет текста метки */
+  margin-right: 5px;
+}
+
+.auto-p {
+  margin-bottom: 10px;
+  color: #008000; /* Измененный цвет текста параграфа */
+}
+
+.auto-button {
+  padding: 10px 35px;
+  background-color: #212529; /* Измененный цвет фона кнопки */
+  border-style: ridge;
+  border-color: #fff;
+  color: #fff; /* Измененный цвет текста кнопки */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.auto-button:hover {
+  background-color: #e6b800; /* Измененный цвет фона кнопки при наведении */
+}
+</style>
+    <h1 style="margin-bottom: 60px">Главная страница</h1>
+<hr>
+    <form method="post">
+        {% csrf_token %}
+
+        {% for f in formMyAccountAuto %}
+        <p class="auto-p"><h2 class="auto-label" for = "{{ f.id_for_label }}">{{f.label}}: </h2>{{ f }}</p>
+        <div>{{ f.errors }}</div>
+        {% endfor %}
+        <div><h5 class="auto-label">{{ formMyAccountAuto.non_field_errors }}</h5></div>
+        <button type="submit" class="auto-button" style="margin-bottom: 20px">Авторизоваться</button>
+    </form>
+{% endblock %}

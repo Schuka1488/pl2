@@ -1,0 +1,319 @@
+
+<!doctype html>
+{%load static%}
+{%load main_tags%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Elder Shop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="shortcut icon"  href=" {% static 'main/images/favicon.ico' %} " >
+</head>
+
+<body class="text-bg-dark">
+
+<style>
+
+.menu {
+    display: flex;
+}
+
+.menu li {
+    width: 138px;
+    list-style: none;
+    background: #212529;
+    position: relative;
+    border-style: ridge;
+    border-color: #fff
+}
+
+.selected {
+    width: 138px;
+    list-style: none;
+    background: #212529;
+    position: relative;
+    border-style: ridge;
+    border-color: #fff
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    padding: 0 10px;
+    height: 52px;
+    line-height: 50px;
+    transition: all .5$;
+}
+
+.menu a:hover{
+    background: #808291;
+}
+
+.menu ul {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    display: none;
+    padding: 0;
+}
+
+.menu li:hover ul {
+    display: block;
+}
+
+@-webkit-keyframes pulsate {
+ 50% { color: #fff; text-shadow: 0 -1px rgba(0,0,0,.4), 0 0 6px #ffd, 0 0 9px #fff; }
+}
+@keyframes pulsate {
+ 50% { color: #fff; text-shadow: 0 -1px rgba(0,0,0,.4), 0 0 6px #ffd, 0 0 9px #fff; }
+}
+#blink {
+  color: rgb(245,245,245);
+  text-shadow: 0 -1px rgba(0,0,0,.1);
+  background-color: opacity;
+  -webkit-animation: pulsate 1.9s linear infinite;
+  animation: pulsate 1.9s linear infinite;
+}
+
+.text-bg-dark {
+    color: #fff!important;
+    background-color: RGBA(var(--bs-dark-rgb),var(--bs-bg-opacity,1))!important;
+}
+
+body {
+    text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, .2);
+    box-shadow: inset 0 0 5rem rgba(0, 0, 0, .6);
+
+}
+
+.primary {
+    width: 100%;
+}
+
+article {
+    display: block;
+}
+
+.entry-content {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--color-black);
+    padding: 40px;
+}
+
+div {
+    display: block;
+}
+
+product columns-4 {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+li.product {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 0;
+    text-align: -webkit-match-parent;
+    list-style-type: none;
+}
+
+.products.columns-4 {
+    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+}
+
+.go-top {
+    position: fixed;
+    left: 5px;
+    top: 95%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px 15px;
+    }
+
+.go-top--show {
+    display: block;
+}
+</style>
+
+<nav class="navbar navbar-expand-md bg-white sticky-top border-bottom" data-bs-theme="dark">
+  <div class="container">
+    <a class="navbar-brand d-md-none" href="#">
+      <svg class="bi" width="24" height="24"><use xlink:href="#aperture"></use></svg>
+      Elder Shop
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+            aria-controls="#offcanvas" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="#offcanvas" aria-labelledby="#offcanvasLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="#offcanvasLabel">Elder Shop</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav flex-grow-1 justify-content-between">
+          <li class="nav-item"><a class="nav-link" href="#">
+
+            <svg class="bi" width="24" height="24"><use xlink:href="#aperture"></use></svg>
+
+          </a></li>
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="{% url 'home' %}">Elder Sh<img
+                  src=" {% static 'main/images/favicon.ico' %} " height="26 px">p</a></li>
+          <li></li><li></li><li></li><li><li></li><li></li><li><li></li><li></li><li><li></li><li></li><li>
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/about">О нас</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/reviews">Отзывы</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/help-and-questions">Помощь</a></li>
+            {% if request.user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/profile">Аккаунт</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/basket">Корзина</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/logout">Выйти</a></li>
+            {% else %}
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/my-account">Регистрация</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/auto">Вход</a></li>
+            {% endif %}
+
+            <svg class="bi" width="24" height="24"><use xlink:href="#cart"></use></svg>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<h5></h5>
+<h5></h5>
+{% show_categories 'nameCategory' cat_selected %}
+    <div class="container">
+      {% block hat %} {% endblock %}
+    </div>
+
+{% if cat_selected %}
+    {% show_product idCategory_id=cat_selected %}
+{% else %}
+    <dev></dev>
+{% endif %}
+
+
+<footer class="container py-5">
+    <hr>
+  <div class="row">
+    <div class="col-6 col-md">
+      <h5>Навигация по сайту</h5>
+      <ul class="list-unstyled text-small">
+        <li><a class="link-secondary text-decoration-none" href="/about">О нас</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/reviews">Отзывы</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/help-and-questions">Помощь</a></li>
+          <h5></h5>
+          {% if request.user.is_authenticated %}
+        <li><a class="link-secondary text-decoration-none" href="/profile">Аккаунт</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/basket">Корзина</a></li>
+          {% else %}
+        <li><a class="link-secondary text-decoration-none" href="/auto">Вход</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/my-account">Регистрация</a></li>
+          {% endif %}
+      </ul>
+    </div>
+
+    <div class="col-6 col-md">
+      <h5>Помощь и вопросы</h5>
+      <ul class="list-unstyled text-small">
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/help-and-questions">Как оформить заказ?</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/help-and-questions">Как получить заказ?</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/help-and-questions">Возврат средств</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" href="/help-and-questions">Оплата и получение</a></li>
+      </ul>
+    </div>
+
+    <div class="col-6 col-md">
+      <h5>Контакты и соц сети</h5>
+      <ul class="list-unstyled text-small">
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" target="_blank" href="#">Телеграмм бот для связи</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" target="_blank" href="https://t.me/+wP86Ts7B2FBhZTNi">Группа в телеграмме</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none" target="_blank" href="https://www.donationalerts.com/r/schukinmaxim">Донат на развитие</a></li>
+          <h5></h5>
+        <li><a class="link-secondary text-decoration-none"target="_blank" href="https://account.mail.ru/login">Почта: oleg-14317@mail.ru</a></li>
+      </ul>
+    </div>
+      <div class="col-12 col-md">
+        <div class="textwidget">
+            <p><img decoding="async" loading="lazy" class="alignnone size-medium wp-image-38849"
+                    href=" {% static 'images/enot001-300x36.png' %} "
+                    alt="DownImg" width="300" height="36"
+                    srcset="https://www.nirn.store/wp-content/uploads/2023/02/enot001-300x36.png 300w,
+                    https://www.nirn.store/wp-content/uploads/2023/02/enot001-600x72.png 600w,
+                    https://www.nirn.store/wp-content/uploads/2023/02/enot001-768x92.png 768w,
+                    https://www.nirn.store/wp-content/uploads/2023/02/enot001.png 773w"
+                    sizes="(max-width: 300px) 100vw, 300px">
+            </p>
+        </div>
+      </div>
+  </div>
+    <hr>
+    <div class="wt-footer__main">
+        <h5></h5>
+        <h5>Elder Shop</h5>
+        <div class="wt-footer__legal wt-offset-top-24 wt-offset-top-sm-12">
+            <div class="wt-row wt-row_size_s rs-text-3 rs-text-3_theme_dark">
+                <h5></h5>
+                <a class="link-secondary text-decoration-none" href="/privacy-policy">Политика конфиденциальности</a>
+                <h5></h5>
+            </div>
+        </div>
+        <div class="wt-footer__legal wt-offset-top-24 wt-offset-top-sm-12">
+            <div class="wt-row wt-row_size_s rs-text-3 rs-text-3_theme_dark">
+                <h5></h5>
+                <a class="link-secondary text-decoration-none" href="/user-agreement">Пользовательское соглашение</a>
+                <h5></h5>
+            </div>
+        </div>
+        <div class="wt-footer__copyright wt-offset-top-24 wt-offset-top-sm-12">
+            <div class="wt-row wt-row_size_s rs-text-3 rs-text-3_theme_dark">
+                <h5></h5>
+                <a class="link-secondary text-decoration-none" target="_blank" href="#">Сайт разработан с энтузиазмом Щукиным Максимом</a>
+                <h5></h5>
+            </div>
+        </div>
+    </div>
+        </div>
+        <div class="wt-footer__motto wt-offset-top-24 wt-offset-top-sm-0">
+            <h5></h5>
+            <span class="rs-text-3 rs-text-3_hardness_pale rs-text-3_theme_dark">© 2023-2024 Elder Shop</span>
+            <h5></h5>
+        </div>
+</footer>
+<div class="go-top"><img src=" {% static 'main/images/GoTop.png' %} " height="30 px"></div>
+<script src= " {% static 'main/js/scriptGoTop.js' %} "></script>
+</body>
+</html>

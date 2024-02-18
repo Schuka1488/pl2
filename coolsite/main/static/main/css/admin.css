@@ -1,0 +1,27 @@
+#header {
+    background: #383c54;
+}
+
+.theme-toggle svg.theme-icon-when-auto, .theme-toggle svg.theme-icon-when-dark, .theme-toggle svg.theme-icon-when-light{
+    color: #383c54;
+}
+
+.selector-chosen h2 {
+    background: #4f273a;
+}
+
+div.breadcrumbs {
+    background: #4f273a;
+}
+.module caption {
+    background: #4f273a;
+}
+.module h2 {
+    background: #4f273a;
+}
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #4f273a
+}
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #4f273a
+}

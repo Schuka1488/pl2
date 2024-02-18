@@ -1,0 +1,142 @@
+{% extends 'main/base.html' %}
+
+{% block hat %}
+<style>
+.list-pages {
+  margin: 20px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Используем красивый шрифт */
+}
+
+.list-pages ul {
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.list-pages li {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 50%; /* Делаем элементы круглыми */
+  background-color: #fff; /* Белый фон */
+  color: black; /* Черный текст */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.list-pages li a {
+  text-decoration: none;
+  color: black; /* Черный текст */
+  font-weight: bold;
+}
+
+/* Стили для выбранной страницы и стрелок */
+.list-pages .page-num-selected {
+  background-color: #007bff; /* Цвет фона для выбранной страницы */
+  color: white; /* Цвет текста для выбранной страницы */
+}
+
+.list-pages a {
+  display: block;
+}
+
+.list-pages a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.list-pages a:hover {
+  text-decoration: underline;
+}
+
+.rev-label {
+  font-weight: bold;
+  color: #fff; /* Измененный цвет текста метки */
+  margin-right: 5px;
+}
+
+.rev-p {
+  margin-bottom: 10px;
+  color: #008000; /* Измененный цвет текста параграфа */
+}
+
+.rev-button {
+  padding: 10px 197px;
+  background-color: #212529; /* Измененный цвет фона кнопки */
+  border-style: ridge;
+  border-color: #fff;
+  color: #fff; /* Измененный цвет текста кнопки */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.rev-button:hover {
+  background-color: #e6b800; /* Измененный цвет фона кнопки при наведении */
+}
+
+</style>
+    <h1 style="margin-bottom: 60px">Отзывы</h1>
+<hr>
+<form method="post">
+    {% csrf_token %}
+
+    <div>{{ form.non_field_errors }}</div>
+
+    {% for f in form %}
+    <p class="rev-p"><h2 class="rev-label" for = "{{ f.id_for_label }}">{{f.label}}: </h2>{{ f }}</p>
+    <div>{{ f.errors }}</div>
+    {% endfor %}
+    <button class="rev-button" type="submit">Написать</button>
+    <hr>
+</form>
+{% for rev in page_obj %}
+    <li class="product">
+        <h3>Оценка: {{rev.starReview}}★ </h3>
+        <h3 style="margin-bottom: 20px">Дата написания: {{rev.dateReview}}</h3>
+        <h5>Имя: {{rev.nameReview}}</h5>
+        <h5>Отзыв: {{rev.textReview}}</h5>
+        <h5>Ответ: {{rev.answerReview}}</h5>
+        <hr>
+    </li>
+{% endfor %}
+<nav class="list-pages">
+    <ul>
+        {% if page_obj.has_previous %}
+        <li class="page-num">
+            <a href="?page=1">&lt;&lt;</a>
+        </li>
+        {% endif %}
+
+        {% if page_obj.has_previous %}
+        <li class="page-num">
+            <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+        </li>
+        {% endif %}
+
+        {% for p in page_obj.paginator.page_range %}
+        {% if page_obj.number == p %}
+        <li class="page-num page-num-selected">{{ p }}</li>
+        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+        <li class="page-num">
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-num">
+            <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+        </li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+        <li class="page-num">
+            <a href="?page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

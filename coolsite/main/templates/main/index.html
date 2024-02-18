@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+
+{% block hat %}
+    <h1 style="margin-bottom: 60px">Главная страница</h1>
+<hr>
+<h1>Поиск</h1>
+    <form method="GET" action="{% url 'search' %}">
+        <input style="margin-bottom: 60px" type="text" name="q" placeholder="Поиск по товарам">
+        <button type="submit">Найти</button>
+    </form>
+
+    {% if query %}
+        <h2>Поиск результатов по '{{ query }}'</h2>
+        <ul>
+            {% for result in results %}
+            <hr>
+<li class="product">
+        <a class="product__img" href="{{ result.get_absolute_url }}">
+		<img width="540" height="310" style='border:5px ridge #fff'
+             src = '/media/{{result.photoProduct}}'
+             class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" decoding="async" fetchpriority="high">
+            <style>.wooct-countdown.wooct-style-02.wooct-countdown-20091 .wooct-timer > span { border-color: #b7b09d; }
+            .wooct-countdown.wooct-style-02.wooct-countdown-20091
+            </style>
+        </a>
+		<div class="product__info">
+		<div class="product__title"><h5>{{result.nameProduct}}</h5></div>
+		<div class="product__price">
+            <div class="product__price-game">
+                <h5>{{result.priceOnCronProduct}}
+                    <img width="20" height="20"
+                    src="https://www.nirn.store/wp-content/themes/nirn/assets/img/crown.png"
+                    alt="Crown">
+                </h5>
+            </div>
+                <h5></h5>
+                    <h5>{{result.priceOnMoneyProduct}}&nbsp;рублей</h5>
+        </div>
+            <h4>{{result.idCategory}}&nbsp;</h4>
+        </div>
+</li>
+            {% empty %}
+                <li>Результаты не найдены</li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+{% endblock %}

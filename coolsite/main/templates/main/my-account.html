@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+
+{% block hat %}
+<style>
+.acc-label {
+  font-weight: bold;
+  color: #fff; /* Измененный цвет текста метки */
+  margin-right: 5px;
+}
+
+.acc-p {
+  margin-bottom: 10px;
+  color: #008000; /* Измененный цвет текста параграфа */
+}
+
+.acc-button {
+  padding: 10px 47px;
+  background-color: #212529; /* Измененный цвет фона кнопки */
+  border-style: ridge;
+  border-color: #fff;
+  color: #fff; /* Измененный цвет текста кнопки */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.acc-button:hover {
+  background-color: #e6b800; /* Измененный цвет фона кнопки при наведении */
+}
+</style>
+    <h1 style="margin-bottom: 60px">Мой аккаунт</h1>
+<hr>
+    <form method="post">
+        {% csrf_token %}
+        {% for f in formMyAccount %}
+        <p class="acc-p"><h2 class="acc-label" for = "{{ f.id_for_label }}">{{f.label}}: </h2>{{ f }}</p>
+        <div><h5 class="acc-label">{{ f.errors }}</h5></div>
+        {% endfor %}
+        <button type="submit" class="acc-button" style="margin-bottom: 50px">Регистрация</button>
+    </form>
+    <div><h3 style="margin-bottom: 50px">После успешного прохождения процедуры регистрации на сайте,
+        вы можете перейти к авторизации, для дальнейшего просмотра основного функционала сайта. </h3></div>
+    <a class="acc-label" href="/auto"><button class="acc-button">Авторизоваться на сайте</button></a>
+{% endblock %}

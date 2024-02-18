@@ -1,0 +1,11 @@
+<nav class="accordion">
+    <ul class="menu">
+    {% for c in cats %}
+        {% if c.pk == cat_selected %}
+            <li class="selected">{{c.nameCategory}}</li>
+        {% else %}
+            <li><a href="{{c.get_absolute_url}}">{{c.nameCategory}}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</nav>
