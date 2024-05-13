@@ -2,6 +2,18 @@
 
 {% block hat %}
     <h1 style="margin-bottom: 60px">Корзина</h1>
-<hr>
-    <p>Текст</p>
+    <hr>
+    <h2>Добавленные товары:</h2>
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                <p><strong>Имя товара:</strong> {{ item.product.nameProduct }}</p>
+                <p><strong>Цена в кронах:</strong>  {{ item.product.priceOnCronProduct }}</p>
+                <p><strong>Цена в рублях:</strong>  {{ item.product.priceOnMoneyProduct }}</p>
+                <p><strong>Фото товара:</strong></p>
+                <img src="{{ item.product.photoProduct.url }}" alt="{{ item.product.nameProduct }}">
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
+

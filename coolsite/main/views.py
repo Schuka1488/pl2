@@ -4,6 +4,10 @@ from django.contrib import messages
 from .forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserLoginForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import User
+from .models import CartItem
 
 from .forms import *
 from .models import *
@@ -20,9 +24,6 @@ def aboutUS(request):
 
 def profile(request):
     return render(request, "main/profile.html")
-
-def basketAndBuy(request):
-    return render(request, "main/basket.html")
 
 def searchOrCategories(request):
     return render(request, "main/search.html")
@@ -112,3 +113,37 @@ def search(request):
         results = Product.objectsProduct.filter(nameProduct__icontains=query)
     return render(request, "main/index.html", {'results': results, 'query': query})
 
+def change_password(request):
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        if new_password:
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+            # Обновляем сессию пользователя после изменения пароля
+            request.session.cycle_key()
+            # Вход пользователя после изменения пароля
+            # Это может быть полезно, если вы хотите, чтобы пользователь оставался в системе после изменения пароля
+            # Пример:
+            # login(request, user)
+            return redirect('/auto')  # Перенаправляем на страницу профиля после успешного изменения пароля
+    return render(request, 'main/profile.html')
+
+
+def add_to_cart(request, product_id):
+    if request.method == 'POST':
+        # Получаем экземпляр объекта Product по его идентификатору
+        product = Product.objectsProduct.get(pk=product_id)
+
+        # Создаем экземпляр CartItem и сохраняем его в базе данных
+        cart_item = CartItem(user=request.user, product=product)  # Передаем объект Product, а не поля nameProduct и priceOnMoneyProduct
+        cart_item.save()
+
+        return redirect('/basket')  # Перенаправляем пользователя на страницу корзины
+    else:
+        return redirect('/home')  # Если это не POST-запрос, перенаправляем пользователя на главную страницу
+
+
+def basket(request):
+    cart_items = CartItem.objectsCartItem.filter(user=request.user, purchased=False)
+    return render(request, 'main/basket.html', {'cart_items': cart_items})

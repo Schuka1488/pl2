@@ -2,6 +2,46 @@
 
 {% block hat %}
     <h1 style="margin-bottom: 60px">Профиль {{ user.username }}</h1>
-<hr>
-    <p>Текст</p>
+    <hr>
+<style>
+.auto-label {
+  font-weight: bold;
+  color: #fff; /* Измененный цвет текста метки */
+  margin-right: 5px;
+}
+
+.auto-p {
+  margin-bottom: 10px;
+  color: #008000; /* Измененный цвет текста параграфа */
+}
+
+.auto-button {
+  padding: 10px 35px;
+  background-color: #212529; /* Измененный цвет фона кнопки */
+  border-style: ridge;
+  border-color: #fff;
+  color: #fff; /* Измененный цвет текста кнопки */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.auto-button:hover {
+  background-color: #e6b800; /* Измененный цвет фона кнопки при наведении */
+}
+</style>
+    <!-- Форма для изменения пароля -->
+    <form method="post" action="{% url 'change_password' %}">
+        {% csrf_token %}
+        <h2 class="auto-label"><label for="new_password">Новый пароль:</label></h2>
+        <input type="password" id="new_password" name="new_password">
+        <button type="submit" class="auto-button" style="margin-bottom: 20px">Изменить</button>
+    </form>
+    <h2 class="auto-label"><label>Переход в корзину:</label></h2>
+    <button class="auto-button" style="margin-bottom: 20px" onclick="redirectToBasket()">Корзина</button>
+<script>
+function redirectToBasket() {
+    window.location.href = "/basket";
+}
+</script>
 {% endblock %}

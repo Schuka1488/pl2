@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Account(models.Model):
@@ -126,4 +127,34 @@ class Star(models.Model):
     class Meta:
         verbose_name = 'Количество звезд у отзыва'
         verbose_name_plural = 'Количество звезд у отзыва'
+
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None)  # Ссылка на модель Product
+    purchased = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objectsCartItem = models.Manager()
+
+    def __str__(self):
+        return f'{self.product.nameProduct}'
+
+    def get_product_name(self):
+        return self.product.nameProduct
+
+    def get_product_photo(self):
+        return self.product.photoProduct.url
+
+    def get_product_price_cron_or_not(self):
+        return self.product.priceOnCronOrNotProduct
+
+    def get_product_price(self):
+        if self.product.priceOnCronOrNotProduct:
+            return self.product.priceOnCronProduct
+        else:
+            return self.product.priceOnMoneyProduct
+
+    def get_product_description(self):
+        return self.product.descriptionProduct
+
 

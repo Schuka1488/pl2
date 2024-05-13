@@ -155,6 +155,40 @@ li.product {
 .go-top--show {
     display: block;
 }
+    .burger-menu {
+  display: none; /* Скрываем кнопку на больших экранах */
+  cursor: pointer;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 5px 0;
+}
+
+/* Стили для меню категорий */
+.category-menu {
+  display: block; /* По умолчанию показываем меню категорий */
+}
+
+/* Скрытие меню категорий на маленьких экранах */
+@media screen and (max-width: 768px) {
+  .burger-menu {
+    display: block; /* Показываем кнопку бургерного меню на маленьких экранах */
+  }
+
+  .category-menu {
+    display: none; /* Скрываем меню категорий на маленьких экранах */
+  }
+    .category-menu ul {
+  list-style-type: none; /* Убираем стандартные маркеры списка */
+  padding: 0; /* Убираем внутренние отступы */
+}
+
+.category-menu ul li {
+  padding: 10px 0; /* Добавляем отступы сверху и снизу для элементов списка */
+}
 </style>
 
 <nav class="navbar navbar-expand-md bg-white sticky-top border-bottom" data-bs-theme="dark">
@@ -163,39 +197,26 @@ li.product {
       <svg class="bi" width="24" height="24"><use xlink:href="#aperture"></use></svg>
       Elder Shop
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
-            aria-controls="#offcanvas" aria-label="Toggle navigation">
+    <!-- Кнопка бургерного меню -->
+    <button class="navbar-toggler" type="button" onclick="toggleOffcanvas()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="#offcanvas" aria-labelledby="#offcanvasLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="#offcanvasLabel">Elder Shop</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
       <div class="offcanvas-body">
         <ul class="navbar-nav flex-grow-1 justify-content-between">
-          <li class="nav-item"><a class="nav-link" href="#">
-
-            <svg class="bi" width="24" height="24"><use xlink:href="#aperture"></use></svg>
-
-          </a></li>
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="{% url 'home' %}">Elder Sh<img
-                  src=" {% static 'main/images/favicon.ico' %} " height="26 px">p</a></li>
-          <li></li><li></li><li></li><li><li></li><li></li><li><li></li><li></li><li><li></li><li></li><li>
+                  src="{% static 'main/images/favicon.ico' %}" height="26 px">p</a></li>
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/about">О нас</a></li>
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/reviews">Отзывы</a></li>
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/help-and-questions">Помощь</a></li>
-            {% if request.user.is_authenticated %}
+          {% if request.user.is_authenticated %}
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/profile">Аккаунт</a></li>
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/basket">Корзина</a></li>
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/logout">Выйти</a></li>
-            {% else %}
+          {% else %}
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/my-account">Регистрация</a></li>
           <li class="nav-item"><a class="nav-link" style="font-size: 20px" href="/auto">Вход</a></li>
-            {% endif %}
-
-            <svg class="bi" width="24" height="24"><use xlink:href="#cart"></use></svg>
-
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -203,15 +224,27 @@ li.product {
 </nav>
 <h5></h5>
 <h5></h5>
-{% show_categories 'nameCategory' cat_selected %}
-    <div class="container">
-      {% block hat %} {% endblock %}
-    </div>
+<div class="burger-menu" onclick="toggleMenu()">
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+</div>
+
+<!-- Меню категорий -->
+<div class="category-menu">
+  <ul>
+    {% show_categories 'nameCategory' cat_selected %}
+  </ul>
+</div>
+
+<div class="container">
+  {% block hat %} {% endblock %}
+</div>
 
 {% if cat_selected %}
-    {% show_product idCategory_id=cat_selected %}
+  {% show_product idCategory_id=cat_selected %}
 {% else %}
-    <dev></dev>
+  <dev></dev>
 {% endif %}
 
 
@@ -257,12 +290,6 @@ li.product {
       <h5>Контакты и соц сети</h5>
       <ul class="list-unstyled text-small">
           <h5></h5>
-        <li><a class="link-secondary text-decoration-none" target="_blank" href="#">Телеграмм бот для связи</a></li>
-          <h5></h5>
-        <li><a class="link-secondary text-decoration-none" target="_blank" href="https://t.me/+wP86Ts7B2FBhZTNi">Группа в телеграмме</a></li>
-          <h5></h5>
-        <li><a class="link-secondary text-decoration-none" target="_blank" href="https://www.donationalerts.com/r/schukinmaxim">Донат на развитие</a></li>
-          <h5></h5>
         <li><a class="link-secondary text-decoration-none"target="_blank" href="https://account.mail.ru/login">Почта: oleg-14317@mail.ru</a></li>
       </ul>
     </div>
@@ -298,13 +325,6 @@ li.product {
                 <h5></h5>
             </div>
         </div>
-        <div class="wt-footer__copyright wt-offset-top-24 wt-offset-top-sm-12">
-            <div class="wt-row wt-row_size_s rs-text-3 rs-text-3_theme_dark">
-                <h5></h5>
-                <a class="link-secondary text-decoration-none" target="_blank" href="#">Сайт разработан с энтузиазмом Щукиным Максимом</a>
-                <h5></h5>
-            </div>
-        </div>
     </div>
         </div>
         <div class="wt-footer__motto wt-offset-top-24 wt-offset-top-sm-0">
@@ -315,5 +335,19 @@ li.product {
 </footer>
 <div class="go-top"><img src=" {% static 'main/images/GoTop.png' %} " height="30 px"></div>
 <script src= " {% static 'main/js/scriptGoTop.js' %} "></script>
+<script>
+function toggleMenu() {
+    var menu = document.querySelector('.category-menu');
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+}
+</script>
+<script>
+function toggleOffcanvas() {
+    var offcanvas = document.getElementById('offcanvas');
+    var backdrop = document.getElementsByClassName('offcanvas-backdrop')[0];
+    offcanvas.classList.toggle('show');
+    backdrop.classList.toggle('show');
+}
+</script>
 </body>
 </html>

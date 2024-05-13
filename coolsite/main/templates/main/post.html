@@ -1,6 +1,33 @@
 {% extends 'main/base.html' %}
 
 {% block hat %}
+<style>
+.auto-label {
+  font-weight: bold;
+  color: #fff; /* Измененный цвет текста метки */
+  margin-right: 5px;
+}
+
+.auto-p {
+  margin-bottom: 10px;
+  color: #008000; /* Измененный цвет текста параграфа */
+}
+
+.auto-button {
+  padding: 10px 35px;
+  background-color: #212529; /* Измененный цвет фона кнопки */
+  border-style: ridge;
+  border-color: #fff;
+  color: #fff; /* Измененный цвет текста кнопки */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.auto-button:hover {
+  background-color: #e6b800; /* Измененный цвет фона кнопки при наведении */
+}
+</style>
     <h1>{{post.nameProduct}}</h1>
     <p><img width="800" height="450" src="{{post.photoProduct.url}}"></p>
     <h5>{{post.priceOnCronProduct}}
@@ -8,4 +35,8 @@
              alt="Crown">
         {{post.priceOnMoneyProduct}}&nbsp;рублей
     </h5>
+    <form action="{% url 'add_to_cart' post.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="auto-button" style="margin-bottom: 20px">Добавить в корзину</button>
+    </form>
 {% endblock %}
