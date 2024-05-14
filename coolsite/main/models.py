@@ -130,9 +130,9 @@ class Star(models.Model):
         verbose_name_plural = 'Количество звезд у отзыва'
 
 class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None)  # Ссылка на модель Product
-    purchased = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Никнейм пользователя')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None, verbose_name='Название товара')  # Ссылка на модель Product
+    purchased = models.BooleanField('Статус покупки', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objectsCartItem = models.Manager()
@@ -157,5 +157,9 @@ class CartItem(models.Model):
 
     def get_product_description(self):
         return self.product.descriptionProduct
+
+    class Meta:
+        verbose_name = 'Товары в корзине'
+        verbose_name_plural = 'Товары в корзине'
 
 

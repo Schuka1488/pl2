@@ -24,6 +24,12 @@ class ReviewAdmin(admin.ModelAdmin):
 
 admin.site.register(Review, ReviewAdmin)
 
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ('user', 'purchased', 'product')
+    search_fields = ('user', 'product')
+
+admin.site.register(CartItem, CartItemAdmin)
+
 
 admin.site.site_title = 'Elder Shop Administration'
 admin.site.site_header = 'Elder Shop Administration'
