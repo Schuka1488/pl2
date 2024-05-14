@@ -31,6 +31,7 @@
 }
 </style>
     <!-- Форма для изменения пароля -->
+    <h3 style="margin-bottom: 60px">Почта {{ user.email }}</h3>
     <form method="post" action="{% url 'change_password' %}">
         {% csrf_token %}
         <h2 class="auto-label"><label for="new_password">Новый пароль:</label></h2>

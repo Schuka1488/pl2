@@ -8,6 +8,13 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from .models import CartItem
+from django.conf import settings
+import stripe
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 from .forms import *
 from .models import *
@@ -129,7 +136,7 @@ def change_password(request):
             return redirect('/auto')  # Перенаправляем на страницу профиля после успешного изменения пароля
     return render(request, 'main/profile.html')
 
-
+@login_required  # Декоратор, который требует авторизации пользователя
 def add_to_cart(request, product_id):
     if request.method == 'POST':
         # Получаем экземпляр объекта Product по его идентификатору
@@ -147,3 +154,44 @@ def add_to_cart(request, product_id):
 def basket(request):
     cart_items = CartItem.objectsCartItem.filter(user=request.user, purchased=False)
     return render(request, 'main/basket.html', {'cart_items': cart_items})
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+@require_POST
+@csrf_exempt
+def payment_process(request):
+    # Получаем все товары в корзине пользователя
+    cart_items = CartItem.objectsCartItem.filter(user=request.user, purchased=False)
+
+    # Если есть товары в корзине
+    if cart_items.exists():
+        try:
+            # Создаем сессию платежа через Stripe API
+            session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[{
+                    'price_data': {
+                        'currency': 'usd',
+                        'product_data': {
+                            'name': item.product.nameProduct,
+                        },
+                        'unit_amount': item.get_product_price(),  # Стоимость товара
+                    },
+                    'quantity': 1,
+                } for item in cart_items],
+                mode='payment',
+                success_url=request.build_absolute_uri(reverse('profile')),  # Ссылка на страницу успешной оплаты
+                cancel_url=request.build_absolute_uri(reverse('basket')),   # Ссылка на страницу отмены оплаты
+            )
+
+            # Отмечаем все товары в корзине как оплаченные
+            cart_items.update(purchased=True)
+
+            # Перенаправляем пользователя на страницу оплаты Stripe
+            return redirect(session.url)
+        except stripe.error.InvalidRequestError as e:
+            return JsonResponse({'error': str(e)})
+    else:
+        return JsonResponse({'error': 'Ваша корзина пуста'})
+
+

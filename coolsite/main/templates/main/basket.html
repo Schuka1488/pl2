@@ -1,19 +1,103 @@
 {% extends 'main/base.html' %}
 
 {% block hat %}
+<style>
+.auto-label {
+  font-weight: bold;
+  color: #fff; /* Измененный цвет текста метки */
+  margin-right: 5px;
+}
+
+.auto-p {
+  margin-bottom: 10px;
+  color: #008000; /* Измененный цвет текста параграфа */
+}
+
+.auto-button {
+  padding: 10px 35px;
+  background-color: #212529; /* Измененный цвет фона кнопки */
+  border-style: ridge;
+  border-color: #fff;
+  color: #fff; /* Измененный цвет текста кнопки */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.auto-button:hover {
+  background-color: #e6b800; /* Измененный цвет фона кнопки при наведении */
+}
+.description-container {
+  max-width: 800px;
+  word-wrap: break-word; /* Разрешение переноса слов */
+}
+</style>
     <h1 style="margin-bottom: 60px">Корзина</h1>
     <hr>
-    <h2>Добавленные товары:</h2>
+    <h1 style="margin-bottom: 50px ">Добавленные товары:</h1>
     <ul>
         {% for item in cart_items %}
-            <li>
-                <p><strong>Имя товара:</strong> {{ item.product.nameProduct }}</p>
-                <p><strong>Цена в кронах:</strong>  {{ item.product.priceOnCronProduct }}</p>
-                <p><strong>Цена в рублях:</strong>  {{ item.product.priceOnMoneyProduct }}</p>
-                <p><strong>Фото товара:</strong></p>
-                <img src="{{ item.product.photoProduct.url }}" alt="{{ item.product.nameProduct }}">
+            <li style="margin-bottom: 50px ">
+                <h3>{{ item.product.nameProduct }}</h3>
+                <h5>{{ item.product.priceOnCronProduct }} <img width="20" height="20" src="https://www.nirn.store/wp-content/themes/nirn/assets/img/crown.png"
+                alt="Crown"> </h5>
+                <h5> {{ item.product.priceOnMoneyProduct }} рублей</h5>
+                <p><img width="800" height="450" src="{{ item.product.photoProduct.url }}" alt="{{ item.product.nameProduct }}"></p>
+                <div class="description-container">
+                    <h5>{{item.product.descriptionProduct}}</h5>
+                </div>
             </li>
         {% endfor %}
     </ul>
+
+
+<hr>
+
+    <form action="{% url 'payment_process' %}" method="post" id="payment-form">
+    {% csrf_token %}
+    <div class="form-row">
+        <h5 for="card-element" style="margin-bottom: 20px ">
+            Оплата кредитной или дебетовой картой
+        </h5>
+        <div id="card-element">
+        </div>
+        <div id="card-errors" role="alert"></div>
+    </div>
+
+    <button class="auto-button" id="checkout-button">Оплатить</button>
+    </form>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // Устанавливаем публичный ключ Stripe
+    var stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
+
+    // Добавляем обработчик события для кнопки оплаты
+    document.getElementById('checkout-button').addEventListener('click', function() {
+        // Создаем сессию платежа на вашем сервере
+        fetch('/payment/process/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',  // Добавляем CSRF-токен
+            },
+            body: JSON.stringify({
+            })
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(session) {
+            // Перенаправляем пользователя на страницу оплаты Stripe
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+            // Обрабатываем результат перенаправления, если это необходимо
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+</script>
 {% endblock %}
 

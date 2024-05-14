@@ -106,10 +106,11 @@ class Review(models.Model):
 
 
 class Chat(models.Model):
-    loginAccountChat = models.ForeignKey('Account', on_delete=models.PROTECT, null=True)
+    loginAccountChat = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
     dateWriteChat = models.DateTimeField('Дата написания сообщения', max_length=75, auto_now_add=True)
     textReview = models.CharField('Текст сообщения', max_length=500, default="")
     statusViewsOnSiteChat = models.BooleanField('Статус отображения на сайте', default=True)
+    objectsChat = models.Manager()
 
     def __str__(self):
         return self.loginAccountChat

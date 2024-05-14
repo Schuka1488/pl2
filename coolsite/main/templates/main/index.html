@@ -1,12 +1,44 @@
 {% extends 'main/base.html' %}
 
 {% block hat %}
+<style>
+.auto-label {
+  font-weight: bold;
+  color: black; /* Измененный цвет текста метки */
+  margin-right: 5px;
+  width: 1167px; /* Ширина */
+}
+
+.auto-p {
+  margin-bottom: 10px;
+  color: #008000; /* Измененный цвет текста параграфа */
+}
+
+.auto-button {
+  padding: 10px 35px;
+  background-color: #212529; /* Измененный цвет фона кнопки */
+  border-style: ridge;
+  border-color: #fff;
+  color: #fff; /* Измененный цвет текста кнопки */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.auto-button:hover {
+  background-color: #e6b800; /* Измененный цвет фона кнопки при наведении */
+}
+.description-container {
+  max-width: 800px;
+  word-wrap: break-word; /* Разрешение переноса слов */
+}
+</style>
     <h1 style="margin-bottom: 60px">Главная страница</h1>
 <hr>
-<h1>Поиск</h1>
+<h2>Поиск</h2>
     <form method="GET" action="{% url 'search' %}">
-        <input style="margin-bottom: 60px" type="text" name="q" placeholder="Поиск по товарам">
-        <button type="submit">Найти</button>
+        <input class="auto-label"  style="margin-bottom: 60px" type="text" name="q" placeholder="Поиск по товарам">
+        <button class="auto-button " type="submit">Найти</button>
     </form>
 
     {% if query %}
